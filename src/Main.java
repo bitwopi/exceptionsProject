@@ -6,19 +6,16 @@ import java.util.regex.Pattern;
 public class Main {
     // Проверяет соответствует ли строка условиям задачи, т.е. есть ли в строке символы помимо
     // латинских и знака подчеркивания и привышает ли длина строки максимальную
-    public static boolean checkString(String text){
-        int maxLength = 20;
-        return (text.length() > maxLength
-                || Pattern.matches(".*\\W.*", text)
-                || Pattern.matches(".*\\p{InCyrillic}.*", text));
+    public static boolean checkWrongString(String text){
+        return !Pattern.matches("^[a-zA-Z0-9_]{1,20}$", text);
     }
 
     // Выкидывает исключение если логин или пароль не соответсвуют условиям
     public static void loginUser(String login, String password, String confirmPassword){
-        if (checkString(login)) {
+        if (checkWrongString(login)) {
             throw new WrongLoginException("Your login is incorrect, pls correct it!");
         }
-        if (checkString(password) || !password.equals(confirmPassword)){
+        if (checkWrongString(password) || !password.equals(confirmPassword)){
             throw new WrongPasswordException("You've entered the wrong password or your passwords don't match!");
         }
 
